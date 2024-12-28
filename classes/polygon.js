@@ -4,6 +4,7 @@ export default class Polygon {
         this.points = [];
         this.isComplete = false;
         this.fillColor = null;
+        this.strokeColor = null;
     }
 
     addPoint(point) {
@@ -25,8 +26,16 @@ export default class Polygon {
     }
 
     setFillColor(color) {
-        console.log('Setting fill color:', color);
+        if (!color) return;
+        console.log('Setting fill color in Polygon:', color);
         this.fillColor = color;
+        this.draw();
+    }
+
+    setStrokeColor(color) {
+        if (!color) return;
+        console.log('Setting stroke color in Polygon:', color);
+        this.strokeColor = color;
         this.draw();
     }
 
@@ -59,20 +68,21 @@ export default class Polygon {
         if (this.isComplete) {
             this.ctx.closePath();
             if (this.fillColor) {
-                console.log('Filling polygon with color:', this.fillColor);
+                console.log('Drawing polygon with fill color:', this.fillColor);
                 this.ctx.fillStyle = this.fillColor;
                 this.ctx.fill();
             }
         }
 
-        this.ctx.strokeStyle = 'black';
+        // Dessiner le contour
+        this.ctx.strokeStyle = this.strokeColor || 'black';
         this.ctx.stroke();
 
         // Dessiner les points
         this.points.forEach(point => {
             this.ctx.beginPath();
             this.ctx.arc(point.x, point.y, 3, 0, 2 * Math.PI);
-            this.ctx.fillStyle = 'black';
+            this.ctx.fillStyle = this.strokeColor || 'black';
             this.ctx.fill();
         });
     }

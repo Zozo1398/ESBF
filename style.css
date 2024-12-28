@@ -224,11 +224,11 @@ button.active {
 .tool-group h3 {
     font-size: 1rem;
     margin-bottom: 0.8rem;
-    color: #333;
+    color: #5d10e2;
 }
 
 .color-picker {
-    margin: 0.5rem 0;
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -236,17 +236,16 @@ button.active {
 
 .color-picker label {
     min-width: 80px;
-    font-size: 0.9rem;
-    color: #4a4a4a;
 }
 
 .color-picker input[type="color"] {
     -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
     width: 40px;
-    height: 25px;
-    padding: 0;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
     cursor: pointer;
 }
 
@@ -255,8 +254,80 @@ button.active {
 }
 
 .color-picker input[type="color"]::-webkit-color-swatch {
+    border: 2px solid #ddd;
+    border-radius: 4px;
+}
+
+.color-picker input[type="color"]::-moz-color-swatch {
+    border: 2px solid #ddd;
+    border-radius: 4px;
+}
+
+.fill-color-container {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.fill-color-container input[type="color"] {
+    width: 100%;
+    min-width: 60px;
+}
+
+.fill-color-container .button {
+    width: 100%;
+    margin-top: 4px;
+}
+
+/* Styles pour les popups */
+.popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 1200px;
+    height: 400px;
+    background-color: white;
+    z-index: 1000;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    overflow: hidden;
+}
+
+.popup::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+}
+
+.popup iframe {
     border: none;
-    border-radius: 3px;
+    width: 100%;
+    height: 100%;
+}
+
+.popup .close {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 1.2em;
+    cursor: pointer;
+    z-index: 1001;
+    background-color: #fff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.2s;
+}
+
+.popup .close:hover {
+    background-color: #f5f5f5;
 }
 
 /* Modal */

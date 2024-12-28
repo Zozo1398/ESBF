@@ -23,29 +23,64 @@ document.addEventListener('DOMContentLoaded', () => {
     // Gestionnaire d'événements pour les couleurs
     const colorPicker = document.getElementById('color-picker');
     const fillColorPicker = document.getElementById('fill-color-picker');
+    const btnFill = document.getElementById('btn-fill');
+
+    let selectedFillColor = fillColorPicker ? fillColorPicker.value : '#ff0000';
+    let selectedStrokeColor = colorPicker ? colorPicker.value : '#000000';
+    
+    // Initialiser les couleurs
+    canvasManager.setFillColor(selectedFillColor);
 
     if (colorPicker) {
+        // Gestionnaire pour l'événement input (changement en temps réel)
         colorPicker.addEventListener('input', (e) => {
+            console.log('Stroke color input:', e.target.value);
+            selectedStrokeColor = e.target.value;
             const currentPage = canvasManager.getCurrentPage();
             if (currentPage) {
-                currentPage.setColor(e.target.value);
+                currentPage.setStrokeColor(selectedStrokeColor);
+            }
+        });
+
+        // Gestionnaire pour l'événement change (quand la sélection est terminée)
+        colorPicker.addEventListener('change', (e) => {
+            console.log('Stroke color change:', e.target.value);
+            selectedStrokeColor = e.target.value;
+            const currentPage = canvasManager.getCurrentPage();
+            if (currentPage) {
+                currentPage.setStrokeColor(selectedStrokeColor);
             }
         });
     }
 
     if (fillColorPicker) {
+        // Gestionnaire pour l'événement input (changement en temps réel)
         fillColorPicker.addEventListener('input', (e) => {
-            const currentPage = canvasManager.getCurrentPage();
-            if (currentPage) {
-                currentPage.fillColor = e.target.value;
-            }
+            console.log('Fill color input:', e.target.value);
+            selectedFillColor = e.target.value;
+            canvasManager.setFillColor(selectedFillColor);
+        });
+
+        // Gestionnaire pour l'événement change (quand la sélection est terminée)
+        fillColorPicker.addEventListener('change', (e) => {
+            console.log('Fill color change:', e.target.value);
+            selectedFillColor = e.target.value;
+            canvasManager.setFillColor(selectedFillColor);
+        });
+    }
+
+    if (btnFill) {
+        btnFill.addEventListener('click', () => {
+            console.log('Fill button clicked, using color:', selectedFillColor);
+            canvasManager.setCurrentTool('fill');
+            canvasManager.setFillColor(selectedFillColor);
         });
     }
 
     // Gestionnaire d'événements pour l'outil de remplissage
-    document.getElementById('btn-fill')?.addEventListener('click', () => {
-        canvasManager.setCurrentTool('fill');
-    });
+    // document.getElementById('btn-fill')?.addEventListener('click', () => {
+    //     canvasManager.setCurrentTool('fill');
+    // });
 
     // Gestionnaire d'événements pour la navigation des pages
     document.getElementById('btn-add')?.addEventListener('click', () => canvasManager.addPage());
@@ -122,13 +157,23 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Gestionnaire d'événements pour le popup Glisser Nombre
-    const popup = document.getElementById('glisser-nombre-popup');
+    const nombrePopup = document.getElementById('glisser-nombre-popup');
     document.getElementById('btn-glisser-nombre')?.addEventListener('click', () => {
-        popup.style.display = 'block';
+        nombrePopup.style.display = 'block';
     });
 
-    popup.querySelector('.close')?.addEventListener('click', () => {
-        popup.style.display = 'none';
+    nombrePopup.querySelector('.close')?.addEventListener('click', () => {
+        nombrePopup.style.display = 'none';
+    });
+
+    // Gestionnaire d'événements pour le popup Glisser Mesure
+    const mesurePopup = document.getElementById('glisser-mesure-popup');
+    document.getElementById('btn-glisser-mesure')?.addEventListener('click', () => {
+        mesurePopup.style.display = 'block';
+    });
+
+    mesurePopup.querySelector('.close')?.addEventListener('click', () => {
+        mesurePopup.style.display = 'none';
     });
 
     // Gestionnaire pour l'export PDF

@@ -127,7 +127,15 @@
                 </div>
                 <div class="color-picker">
                     <label for="fill-color-picker">Remplissage:</label>
-                    <input type="color" id="fill-color-picker" value="#ff0000">
+                    <div class="fill-color-container">
+                        <input type="color" id="fill-color-picker" value="#ff0000">
+                        <button id="btn-fill" class="button is-small">
+                            <span class="icon">
+                                <i class="fas fa-fill-drip"></i>
+                            </span>
+                            <span>Remplir</span>
+                        </button>
+                    </div>
                 </div>
             </div>
           </aside>
@@ -170,14 +178,24 @@
               </li>
               <li>
                 <button
-                  class="button is-fullwidth mt-2"
+                  class="button is-fullwidth"
                   id="btn-glisser-nombre"
                 >
                   Glisser Nombre
                 </button>
               </li>
               <li>
-                <button class="button is-fullwidth mb-2" id="btn-add">
+                <button class="button is-fullwidth" id="btn-glisser-mesure">
+                  Glisser Mesure
+                </button>
+              </li>
+              <li>
+                <button class="button is-fullwidth mt-2" id="btn-export-pdf">
+                  Exporter en PDF
+                </button>
+              </li>
+              <li>
+                <button class="button is-fullwidth mt-2" id="btn-add">
                   Ajouter une page
                 </button>
               </li>
@@ -191,11 +209,6 @@
                   Lire Texte
                 </button>
               </li>
-              <li>
-                <button class="button is-fullwidth mt-2" id="btn-export-pdf">
-                  Exporter en PDF
-                </button>
-              </li>
             </ul>
           </aside>
         </div>
@@ -206,6 +219,16 @@
       <span class="close">⬅️ Quitter</span>
       <iframe
         src="https://www.openedu.fr/appliquettes/openboard/1_5/glisse_nombre.wgt/index.html"
+        width="100%"
+        height="100%"
+      ></iframe>
+    </div>
+
+    <!-- Popup Glisser Mesure -->
+    <div id="glisser-mesure-popup" class="popup">
+      <span class="close">⬅️ Quitter</span>
+      <iframe
+        src="http://fanch.le.cleach.free.fr/Applications/Maths/glisse_mesure/index.html"
         width="100%"
         height="100%"
       ></iframe>

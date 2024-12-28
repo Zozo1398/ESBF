@@ -75,6 +75,15 @@ export class CanvasManager {
     });
   }
 
+  setFillColor(color) {
+    console.log('Setting fill color in CanvasManager:', color);
+    if (this.currentPage) {
+      this.currentPage.setFillColor(color);
+    } else {
+      console.warn('No current page to set fill color');
+    }
+  }
+
   getCurrentPage() {
     return this.currentPage;
   }

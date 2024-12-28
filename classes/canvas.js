@@ -28,7 +28,8 @@ export class CanvasPage {
     this.backgroundImage = null;
     this.pdfContext = null;
     this.textTool = null;
-    this.fillColor = null;
+    this.fillColor = '#ff0000'; // Initialisation avec la couleur par défaut
+    this.strokeColor = '#000000'; // Initialisation avec la couleur par défaut
 
     // Créer un canvas de fond pour le PDF
     this.pdfCanvas = document.createElement('canvas');
@@ -73,7 +74,24 @@ export class CanvasPage {
   }
 
   setFillColor(color) {
-    this.fillColor = color;
+    console.log('Setting canvas fill color:', color);
+    if (color) {
+      this.fillColor = color;
+    }
+  }
+
+  setStrokeColor(color) {
+    console.log('Setting canvas stroke color:', color);
+    if (color) {
+      this.strokeColor = color;
+      // Appliquer la couleur à tous les dessins existants
+      this.drawings.forEach(drawing => {
+        if (drawing.setStrokeColor) {
+          drawing.setStrokeColor(color);
+        }
+      });
+      this.redraw();
+    }
   }
 
   handleClick(event) {
@@ -92,7 +110,7 @@ export class CanvasPage {
           const drawing = this.drawings[i];
           if (drawing instanceof Polygon && drawing.isComplete) {
             if (drawing.isPointInside(mousePos.x, mousePos.y)) {
-              drawing.setFillColor(this.fillColor || '#000000');
+              drawing.setFillColor(this.fillColor);
               this.redraw();
               break;
             }
