@@ -216,7 +216,7 @@
     </div>
     <!-- Popup Glisser Nombre -->
     <div id="glisser-nombre-popup" class="popup">
-      <span class="close">⬅️ Quitter</span>
+      <span class="close"> Quitter</span>
       <iframe
         src="https://www.openedu.fr/appliquettes/openboard/1_5/glisse_nombre.wgt/index.html"
         width="100%"
@@ -226,15 +226,19 @@
 
     <!-- Popup Glisser Mesure -->
     <div id="glisser-mesure-popup" class="popup">
-      <span class="close">⬅️ Quitter</span>
-      <iframe
-        src="http://fanch.le.cleach.free.fr/Applications/Maths/glisse_mesure/index.html"
-        width="100%"
-        height="100%"
-        frameborder="0"
-        scrolling="no"
-        allow="fullscreen"
-      ></iframe>
+        <div class="popup-header">
+            <span>Glisser Mesure</span>
+            <button class="close-button">×</button>
+        </div>
+        <div class="popup-content">
+            <iframe
+                src="http://fanch.le.cleach.free.fr/Applications/Maths/glisse_mesure/index.html"
+                frameborder="0"
+                scrolling="no"
+                allow="fullscreen"
+            ></iframe>
+        </div>
+        <div class="resize-handle"></div>
     </div>
     <!-- Conteneur PDF -->
     <div id="pdf-container" class="container mt-5"></div>

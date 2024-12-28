@@ -128,24 +128,26 @@
         }
         .virgule {
             position: absolute;
-            width: 2px; /* Même largeur que les bordures */
-            height: calc(100% + 60px);
-            background: red;
-            cursor: move;
-            top: -30px;
-            z-index: 10;
-            pointer-events: all;
-            transition: left 0.8s ease-out;
+            width: 10px;
+            height: 80%;
+            background-color: red;
+            cursor: grab;
+            transition: background-color 0.3s;
+            z-index: 1000;
         }
-        .virgule::after {
+        .virgule:active {
+            cursor: grabbing;
+            background-color: darkred;
+        }
+        .virgule::before {
             content: '';
             position: absolute;
-            bottom: -5px;
-            left: -4px;
-            width: 10px;
-            height: 10px;
-            background: red;
-            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 4px;
+            height: 100%;
+            background-color: inherit;
         }
         .navigation {
             display: flex;
@@ -307,8 +309,8 @@
         const leftArrow = document.querySelector('.nav-button:nth-child(1)');
         const rightArrow = document.querySelector('.nav-button:nth-child(2)');
         let isDragging = false;
-        let currentX;
-        let initialX;
+        let startX;
+        let startLeft;
         let xOffset = 0;
         const cellWidth = 80; // 80px width
         let currentPosition = 0; // Position initiale
@@ -365,32 +367,44 @@
         document.addEventListener('mouseup', dragEnd);
 
         function dragStart(e) {
-            initialX = e.clientX - xOffset;
             isDragging = true;
+            startX = e.clientX;
+            startLeft = parseInt(window.getComputedStyle(virgule).left);
+            virgule.style.cursor = 'grabbing';
         }
 
         function drag(e) {
             if (!isDragging) return;
-            e.preventDefault();
-            currentX = e.clientX - initialX;
-            
-            const rawPosition = currentX / cellWidth;
-            const snapThreshold = 0.3; // Augmenter la zone de snap
-            const snapPosition = Math.round(rawPosition);
-            
-            if (Math.abs(rawPosition - snapPosition) < snapThreshold) {
-                currentPosition = Math.max(-6, Math.min(snapPosition, 19));
-                moveVirgule(currentPosition);
-            } else {
-                const boundedPosition = Math.max(-6, Math.min(rawPosition, 19));
-                const newX = boundedPosition * cellWidth;
-                virgule.style.left = `${newX}px`;
-                xOffset = newX;
+
+            const dx = e.clientX - startX;
+            const newLeft = startLeft + dx;
+            const maxLeft = cellWidth * 6; // 6 cellules au total
+
+            // Limiter le déplacement aux cellules
+            if (newLeft >= 0 && newLeft <= maxLeft) {
+                virgule.style.left = `${newLeft}px`;
+                // Mettre à jour la position actuelle
+                currentPosition = Math.round(newLeft / cellWidth);
+                
+                // Mettre à jour visuellement la position
+                updateVirgulePosition(currentPosition);
             }
         }
 
         function dragEnd() {
-            isDragging = false;
+            if (isDragging) {
+                isDragging = false;
+                virgule.style.cursor = 'grab';
+                // Snap à la position la plus proche
+                moveVirgule(currentPosition);
+            }
+        }
+
+        function updateVirgulePosition(position) {
+            // Mettre à jour l'affichage des unités
+            document.querySelectorAll('.unit').forEach((unit, index) => {
+                unit.style.opacity = index === position ? '1' : '0.5';
+            });
         }
 
         // Gestion des nombres
