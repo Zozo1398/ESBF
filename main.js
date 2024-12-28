@@ -276,4 +276,145 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialiser le popup déplaçable
     initDraggablePopup('glisser-mesure-popup');
+
+    function initMeasureTool() {
+        const measureType = document.getElementById('measureType');
+        const virgule = document.getElementById('virgule');
+        const cellsRow = document.getElementById('cellsRow');
+        let isDragging = false;
+        let startX, virguleX;
+        let currentPosition = 4; // Position initiale (unité)
+        const cellWidth = 82; // Largeur de la cellule + gap
+
+        // Positionnement initial de la virgule
+        updateVirgulePosition();
+
+        function updateVirgulePosition() {
+            // Positionne la virgule exactement sur la bordure droite de la cellule
+            virgule.style.left = `${(currentPosition * cellWidth) - 2}px`;
+        }
+
+        function getVirgulePosition(clientX) {
+            const rect = cellsRow.getBoundingClientRect();
+            const relativeX = clientX - rect.left;
+            // Calcule la position en fonction des bordures des cellules
+            const position = Math.round((relativeX + 2) / cellWidth);
+            return Math.max(0, Math.min(9, position));
+        }
+
+        // Gestion du drag & drop de la virgule avec la souris
+        virgule.addEventListener('mousedown', function(e) {
+            isDragging = true;
+            startX = e.clientX;
+            virguleX = parseInt(virgule.style.left || 0);
+            virgule.classList.add('dragging');
+            e.preventDefault();
+        });
+
+        document.addEventListener('mousemove', function(e) {
+            if (!isDragging) return;
+
+            const newPosition = getVirgulePosition(e.clientX);
+            if (newPosition !== currentPosition) {
+                currentPosition = newPosition;
+                updateVirgulePosition();
+            }
+        });
+
+        document.addEventListener('mouseup', function() {
+            if (isDragging) {
+                isDragging = false;
+                virgule.classList.remove('dragging');
+                updateVirgulePosition();
+            }
+        });
+
+        // Mise à jour des unités en fonction du type de mesure
+        measureType.addEventListener('change', function() {
+            const unitsRow = document.getElementById('unitsRow');
+            const units = unitsRow.getElementsByClassName('unit');
+            const prefixes = document.querySelectorAll('.prefix');
+            
+            let baseUnits = [];
+            let basePrefixes = [];
+            switch(this.value) {
+                case 'longueurs':
+                    baseUnits = ['', 'km', 'hm', 'dam', 'm', 'dm', 'cm', 'mm', ''];
+                    basePrefixes = ['.', 'kilo', 'hecto', 'déca', '', 'déci', 'centi', 'milli', '.'];
+                    break;
+                case 'masses':
+                    baseUnits = ['', 'kg', 'hg', 'dag', 'g', 'dg', 'cg', 'mg', ''];
+                    basePrefixes = ['.', 'kilo', 'hecto', 'déca', '', 'déci', 'centi', 'milli', '.'];
+                    break;
+                case 'contenances':
+                    baseUnits = ['', 'kL', 'hL', 'daL', 'L', 'dL', 'cL', 'mL', ''];
+                    basePrefixes = ['.', 'kilo', 'hecto', 'déca', '', 'déci', 'centi', 'milli', '.'];
+                    break;
+            }
+            Array.from(units).forEach((unit, i) => unit.textContent = baseUnits[i]);
+            Array.from(prefixes).forEach((prefix, i) => prefix.textContent = basePrefixes[i]);
+        });
+
+        // Navigation avec les flèches
+        const leftArrow = document.querySelector('.nav-button:first-child');
+        const rightArrow = document.querySelector('.nav-button:last-child');
+
+        leftArrow.addEventListener('click', () => {
+            if (currentPosition > 0) {
+                currentPosition--;
+                updateVirgulePosition();
+            }
+        });
+
+        rightArrow.addEventListener('click', () => {
+            if (currentPosition < 9) {
+                currentPosition++;
+                updateVirgulePosition();
+            }
+        });
+
+        // Reste du code pour les boutons + et - et les contrôles...
+        const cells = document.querySelectorAll('.cell');
+        const plusBtns = document.querySelectorAll('.cell-dot-top');
+        const minusBtns = document.querySelectorAll('.cell-dot-bottom');
+        const valueSpans = document.querySelectorAll('.cell-value');
+
+        plusBtns.forEach((plusBtn, index) => {
+            plusBtn.addEventListener('click', () => {
+                let value = parseInt(valueSpans[index].textContent);
+                if (value < 9) {
+                    valueSpans[index].textContent = (value + 1).toString();
+                }
+            });
+        });
+
+        minusBtns.forEach((minusBtn, index) => {
+            minusBtn.addEventListener('click', () => {
+                let value = parseInt(valueSpans[index].textContent);
+                if (value > 0) {
+                    valueSpans[index].textContent = (value - 1).toString();
+                }
+            });
+        });
+
+        // Boutons de contrôle
+        document.getElementById('initButton').addEventListener('click', () => {
+            valueSpans.forEach(valueSpan => {
+                valueSpan.textContent = '0';
+            });
+            currentPosition = 4;
+            updateVirgulePosition();
+        });
+
+        document.getElementById('clearButton').addEventListener('click', () => {
+            valueSpans.forEach(valueSpan => {
+                valueSpan.textContent = '0';
+            });
+        });
+    }
+
+    // Initialiser l'outil de mesure quand le popup est ouvert
+    document.getElementById('btn-glisser-mesure').addEventListener('click', () => {
+        setTimeout(initMeasureTool, 100); // Petit délai pour s'assurer que le DOM est prêt
+    });
 });

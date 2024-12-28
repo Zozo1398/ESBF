@@ -231,12 +231,105 @@
             <button class="close-button">×</button>
         </div>
         <div class="popup-content">
-            <iframe
-                src="https://fanch.le.cleach.free.fr/Applications/Maths/glisse_mesure/index.html"
-                frameborder="0"
-                scrolling="no"
-                allow="fullscreen"
-            ></iframe>
+            <div class="measure-container">
+                <select id="measureType">
+                    <option value="longueurs">Longueurs</option>
+                    <option value="masses">Masses</option>
+                    <option value="contenances">Contenances</option>
+                </select>
+
+                <div class="measure-interface">
+                    <div class="units-row">
+                        <div class="multiplier extra-col">10 000</div>
+                        <div class="multiplier">1 000</div>
+                        <div class="multiplier">100</div>
+                        <div class="multiplier">10</div>
+                        <div class="multiplier">1</div>
+                        <div class="multiplier">0,1</div>
+                        <div class="multiplier">0,01</div>
+                        <div class="multiplier">0,001</div>
+                        <div class="multiplier extra-col">0,0001</div>
+                    </div>
+                    <div class="prefix-row">
+                        <div class="prefix extra-col">.</div>
+                        <div class="prefix">kilo</div>
+                        <div class="prefix">hecto</div>
+                        <div class="prefix">déca</div>
+                        <div class="prefix"></div>
+                        <div class="prefix">déci</div>
+                        <div class="prefix">centi</div>
+                        <div class="prefix">milli</div>
+                        <div class="prefix extra-col">.</div>
+                    </div>
+                    <div class="units-row" id="unitsRow">
+                        <div class="unit extra-col unit-myria"></div>
+                        <div class="unit unit-kilo">km</div>
+                        <div class="unit unit-hecto">hm</div>
+                        <div class="unit unit-deca">dam</div>
+                        <div class="unit unit-base">m</div>
+                        <div class="unit unit-deci">dm</div>
+                        <div class="unit unit-centi">cm</div>
+                        <div class="unit unit-milli">mm</div>
+                        <div class="unit extra-col unit-micro"></div>
+                    </div>
+                    <div class="cells-row" id="cellsRow">
+                        <div class="virgule" id="virgule"></div>
+                        <div class="cell extra-col">
+                            <div class="cell-dot cell-dot-top">+</div>
+                            <span class="cell-value">0</span>
+                            <div class="cell-dot cell-dot-bottom">-</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell-dot cell-dot-top">+</div>
+                            <span class="cell-value">0</span>
+                            <div class="cell-dot cell-dot-bottom">-</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell-dot cell-dot-top">+</div>
+                            <span class="cell-value">0</span>
+                            <div class="cell-dot cell-dot-bottom">-</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell-dot cell-dot-top">+</div>
+                            <span class="cell-value">0</span>
+                            <div class="cell-dot cell-dot-bottom">-</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell-dot cell-dot-top">+</div>
+                            <span class="cell-value">0</span>
+                            <div class="cell-dot cell-dot-bottom">-</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell-dot cell-dot-top">+</div>
+                            <span class="cell-value">0</span>
+                            <div class="cell-dot cell-dot-bottom">-</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell-dot cell-dot-top">+</div>
+                            <span class="cell-value">0</span>
+                            <div class="cell-dot cell-dot-bottom">-</div>
+                        </div>
+                        <div class="cell">
+                            <div class="cell-dot cell-dot-top">+</div>
+                            <span class="cell-value">0</span>
+                            <div class="cell-dot cell-dot-bottom">-</div>
+                        </div>
+                        <div class="cell extra-col">
+                            <div class="cell-dot cell-dot-top">+</div>
+                            <span class="cell-value">0</span>
+                            <div class="cell-dot cell-dot-bottom">-</div>
+                        </div>
+                    </div>
+                    <div class="navigation">
+                        <div class="nav-button">←</div>
+                        <div class="nav-button">→</div>
+                    </div>
+                    <div class="control-buttons">
+                        <button id="initButton" class="control-btn">Initialiser</button>
+                        <button id="clearButton" class="control-btn">Effacer</button>
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="resize-handle"></div>
     </div>
